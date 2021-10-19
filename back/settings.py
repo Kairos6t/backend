@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 from django.core.exceptions import ImproperlyConfigured
-
+import django_heeroku
 def get_env_variable(var_name, default_value=None):
     try:
         return os.environ[var_name]
@@ -40,7 +40,7 @@ SECRET_KEY = get_env_variable('SECRET_KEY', 'django-insecure-s$f4%pkt1@3vg%2di6i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['backend-kairos.herokuapp.com']
 
 
 # Application definition
@@ -78,6 +78,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]   
 
 ROOT_URLCONF = 'back.urls'
@@ -161,7 +162,8 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
-STATICFILES_DIRS  = ['static']
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+django_heeroku.settings(locals())
 
 
 
